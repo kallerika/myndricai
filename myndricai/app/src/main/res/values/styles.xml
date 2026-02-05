@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Заглушки, чтобы сборка не падала, если где-то осталось @style/Button/@style/EditText -->
+    <style name="Button" parent="Widget.MaterialComponents.Button" />
+    <!-- ВАЖНО: НЕ Material3. TextField у Material3 у тебя не находится -->
+    <style name="EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+
+    <!-- Если где-то используется textAppearance="@style/TextAppearance.MyndricAI" -->
+    <style name="TextAppearance.MyndricAI" parent="TextAppearance.MaterialComponents.Body1" />
+    <style name="TextAppearance.MyndricAI.Title" parent="TextAppearance.MaterialComponents.Headline6" />
+    <style name="TextAppearance.MyndricAI.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1" />
+    <style name="TextAppearance.MyndricAI.Body" parent="TextAppearance.MaterialComponents.Body1" />
+
+</resources>

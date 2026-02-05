@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Темная тема -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark_gray">#FF1E1E2E</color>
+    <color name="medium_gray">#FF313244</color>
+    <color name="light_gray">#FF45475A</color>
+
+    <!-- Акцентные цвета -->
+    <color name="primary_blue">#FF58A6F0</color>
+    <color name="secondary_blue">#FF3D5B7C</color>
+    <color name="accent_green">#FF56D276</color>
+    <color name="accent_orange">#FFFA6E32</color>
+    <color name="accent_red">#FFE34E4E</color>
+
+    <!-- Цвета для текста -->
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FF999999</color>
+    <color name="text_accent">#FF58A6F0</color>
+
+    <!-- Цвета для кнопок -->
+    <color name="btn_primary">#FF58A6F0</color>
+    <color name="btn_secondary">#FF3D5B7C</color>
+    <color name="btn_success">#FF56D276</color>
+    <color name="btn_warning">#FFFA6E32</color>
+    <color name="btn_danger">#FFE34E4E</color>
+
+    <!-- Цвета для фонов -->
+    <color name="bg_card">#FF1E1E2E</color>
+    <color name="bg_screen">#FF0A0A19</color>
+    <color name="bg_phone_home">#FF0A0A19</color>
+    <color name="bg_phone_app_icon">#FF1E1E2E</color>
+
+    <!-- Цвета для уведомлений -->
+    <color name="notification_dot">#FF56D276</color>
+    <color name="notification_text">#FF0A0A19</color>
+</resources>
