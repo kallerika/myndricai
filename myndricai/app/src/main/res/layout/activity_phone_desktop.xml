@@ -105,27 +105,57 @@
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/btnExitPhone"
+                app:layout_constraintEnd_toStartOf="@+id/llTopActions"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvWidgetDay"
                 tools:ignore="HardcodedText"
-                tools:text="Встреча в 15:00" />
+                tools:text="Встреча в 11:45" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExitPhone"
+            <LinearLayout
+                android:id="@+id/llTopActions"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Ответ"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                app:backgroundTint="#1AFFFFFF"
-                app:cornerRadius="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="#2FFFFFFF"
-                app:strokeWidth="1dp" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConclusion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
+                    android:minWidth="0dp"
+                    android:text="Заключение"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:backgroundTint="#1AFFFFFF"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="#2FFFFFFF"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnExitPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:insetLeft="0dp"
+                    android:insetRight="0dp"
+                    android:minWidth="0dp"
+                    android:text="Выйти"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:backgroundTint="#1AFFFFFF"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="#2FFFFFFF"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

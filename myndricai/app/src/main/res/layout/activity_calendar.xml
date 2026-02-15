@@ -1,10 +1,419 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/calendarRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarActivity">
+    android:background="@drawable/gradient_bg"
+    android:paddingStart="18dp"
+    android:paddingEnd="18dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
+
+    <!-- Top bar -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Назад"
+        android:padding="10dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:tint="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:text="Календарь"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBack"
+        tools:ignore="HardcodedText" />
+
+    <!-- Month header -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardMonth"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#1FFFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/card_dark"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp">
+
+            <ImageButton
+                android:id="@+id/btnPrev"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Предыдущий месяц"
+                android:padding="8dp"
+                android:src="@android:drawable/ic_media_previous"
+                app:tint="#B0BEC5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMonth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Февраль 2026"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/btnPrev"
+                app:layout_constraintEnd_toStartOf="@+id/btnNext"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="HardcodedText"/>
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Следующий месяц"
+                android:padding="8dp"
+                android:src="@android:drawable/ic_media_next"
+                app:tint="#B0BEC5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Full calendar grid -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardGrid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#1FFFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/cardMonth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_dark"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TableLayout
+                android:id="@+id/tlCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="*"
+                android:stretchColumns="*">
+
+                <!-- Weekdays -->
+                <TableRow>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="ПН" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="ВТ" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="СР" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="ЧТ" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="ПТ" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="СБ" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                    <TextView android:layout_width="0dp" android:layout_height="28dp" android:gravity="center" android:text="ВС" android:textColor="#9AA7B3" android:textSize="12sp" tools:ignore="HardcodedText"/>
+                </TableRow>
+
+                <!-- Row 1: empty Mon-Sat, 1 on Sunday -->
+                <TableRow>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty1" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty2" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty3" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty4" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty5" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty6" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDay1"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:text="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:cornerRadius="14dp"
+                        app:strokeColor="#22FFFFFF"
+                        app:strokeWidth="1dp"
+                        app:backgroundTint="#12000000"
+                        tools:ignore="HardcodedText"/>
+                </TableRow>
+
+                <!-- Row 2: 2..8 -->
+                <TableRow>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay2"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="2"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay3"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="3"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay4"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="4"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay5"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="5"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay6"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="6"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay7"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="7"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay8"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="8"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                </TableRow>
+
+                <!-- Row 3: 9..15 -->
+                <TableRow>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay9"  style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="9"  android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay10" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="10" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay11" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="11" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay12" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="12" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay13" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="13" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay14" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="14" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay15" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="15" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                </TableRow>
+
+                <!-- Row 4: 16..22 (21 same style; just clickable) -->
+                <TableRow>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay16" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="16" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay17" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="17" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay18" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="18" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay19" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="19" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay20" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="20" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+
+                    <!-- Day 21: same styling as others, just clickable -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDay21"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:text="21"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:onClick="onBirthdayDayClick"
+                        app:cornerRadius="14dp"
+                        app:strokeColor="#22FFFFFF"
+                        app:strokeWidth="1dp"
+                        app:backgroundTint="#12000000"
+                        tools:ignore="HardcodedText"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay22" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="22" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                </TableRow>
+
+                <!-- Row 5: 23..28 + empty Sunday -->
+                <TableRow>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay23" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="23" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay24" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="24" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay25" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="25" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay26" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="26" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay27" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="27" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnDay28" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="44dp" android:text="28" android:textColor="@android:color/white" android:textSize="14sp" app:cornerRadius="14dp" app:strokeColor="#22FFFFFF" app:strokeWidth="1dp" app:backgroundTint="#12000000" tools:ignore="HardcodedText"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/dayEmpty7" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp" android:layout_height="44dp" android:enabled="false" android:text=""
+                        app:backgroundTint="#00000000" app:strokeColor="#00000000" app:strokeWidth="0dp"/>
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Reminders header -->
+    <TextView
+        android:id="@+id/tvRemindersTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Напоминания"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cardGrid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText"/>
+
+    <!-- Static list (for preview). Later you can bind it with adapter. -->
+    <LinearLayout
+        android:id="@+id/llReminders"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:clipToPadding="false"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvRemindersTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 16.02 11:45 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1FFFFFFF">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_dark"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tvR1Time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16.02 • 11:45"
+                    android:textColor="#6F7D89"
+                    android:textSize="11sp"
+                    tools:ignore="HardcodedText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvR1Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Встретить Антона с поезда"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvR1Time"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 18.02 09:00 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1FFFFFFF">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_dark"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tvR2Time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18.02 • 09:00"
+                    android:textColor="#6F7D89"
+                    android:textSize="11sp"
+                    tools:ignore="HardcodedText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvR2Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Смена в кофейне"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvR2Time"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 21.02 Birthday -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1FFFFFFF">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_dark"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tvR3Time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21.02 • 00:00"
+                    android:textColor="#6F7D89"
+                    android:textSize="11sp"
+                    tools:ignore="HardcodedText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvR3Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="День рождения! (20 лет)"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvR3Time"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <View android:layout_width="match_parent" android:layout_height="8dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
