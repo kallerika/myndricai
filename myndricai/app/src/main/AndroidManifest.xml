@@ -15,6 +15,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyndricAI">
         <activity
+            android:name=".CalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MessagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhoneDesktopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LockScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CasesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.CaseClosedActivity"
             android:exported="false" />
         <activity
@@ -41,7 +62,6 @@
         <activity
             android:name=".ui.MyCasesActivity"
             android:exported="false" />
-
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -51,11 +71,10 @@
             android:theme="@style/Theme.MyndricAI">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>
