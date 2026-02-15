@@ -105,7 +105,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Static list -->
+    <!-- Static chats list -->
     <ScrollView
         android:id="@+id/svChats"
         android:layout_width="0dp"
@@ -126,35 +126,747 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 1: Начальник (кофейня) -->
-            <include layout="@layout/item_chat_boss"/>
+            <!-- 1) Шеф (Кофейня) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
 
-            <!-- 2: Антон (поезд) -->
-            <include layout="@layout/item_chat_anton"/>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar1"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#2D9CDB"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-            <!-- 3: Мама -->
-            <include layout="@layout/item_chat_mom"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
 
-            <!-- 4: Коллега (Смена) -->
-            <include layout="@layout/item_chat_colleague"/>
+                <TextView
+                    android:id="@+id/tvName1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Шеф • LuckyCoffee"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar1"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar1"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime1" />
 
-            <!-- 5: Друзья (универ, чат) -->
-            <include layout="@layout/item_chat_uni_group"/>
+                <TextView
+                    android:id="@+id/tvLast1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Не опаздывай в среду, в 9:00 открытие."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar1"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName1"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- 6: Репетитор по английскому -->
-            <include layout="@layout/item_chat_tutor"/>
+                <TextView
+                    android:id="@+id/tvTime1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11:14"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName1" />
 
-            <!-- 7: Подруга Лера -->
-            <include layout="@layout/item_chat_lera"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 8: Друг Макс -->
-            <include layout="@layout/item_chat_max"/>
+            <!-- 2) Антон (поезд) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
 
-            <!-- 9: Куратор/Препод -->
-            <include layout="@layout/item_chat_prof"/>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar2"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#27AE60"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-            <!-- 10: Неизвестный номер -->
-            <include layout="@layout/item_chat_unknown"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Антон"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar2"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar2"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime2" />
+
+                <TextView
+                    android:id="@+id/tvLast2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Я подъезжаю. Ты будешь на платформе в 11:45?"
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar2"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName2"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:32"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName2" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 3) Мама -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar3"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#6C63FF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Мама"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar3"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar3"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime3" />
+
+                <TextView
+                    android:id="@+id/tvLast3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Даша, ты где? Перезвони мне."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar3"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName3"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="09:18"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName3" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 4) Катя (смена) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar4"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#F2994A"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Катя"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar4"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar4"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime4" />
+
+                <TextView
+                    android:id="@+id/tvLast4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Я могу поменяться с тобой сменами завтра, а ты выйди за меня, пожалуйста, в среду."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar4"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName4"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Вчера"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName4" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 5) Универ • Группа -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar5"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#9B51E0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Универ • Группа"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar5"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar5"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime5" />
+
+                <TextView
+                    android:id="@+id/tvLast5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Кто скинется на распечатку? Нужно до пары."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar5"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName5"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Вчера"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName5" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 6) Английский • Марина -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar6"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#56CCF2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.95"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="@android:color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Английский • Марина"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar6"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar6"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime6" />
+
+                <TextView
+                    android:id="@+id/tvLast6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Не забудь дз: 10 предложений в Present Perfect."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar6"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName6"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Пн"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName6" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 7) Лера -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar7"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#EB5757"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Лера"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar7"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar7"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime7" />
+
+                <TextView
+                    android:id="@+id/tvLast7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Кофейня после пары? Я рядом буду."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar7"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName7"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Вс"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName7" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 8) Макс -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar8"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#219653"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Макс"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar8"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar8"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime8" />
+
+                <TextView
+                    android:id="@+id/tvLast8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Ты билеты на выходные смотрела?"
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar8"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName8"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Сб"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName8" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 9) Куратор -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar9"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#828282"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        android:alpha="0.95"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Куратор 101-ИН-ЯЗ • Виктор Павлович"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar9"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar9"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime9" />
+
+                <TextView
+                    android:id="@+id/tvLast9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Напоминаю: отчёт по практике сдаём до пятницы."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar9"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName9"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Чт"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName9" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 10) Неизвестный номер -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar10"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:cardCornerRadius="23dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#1F2A3A"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#22FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@android:drawable/ic_menu_help"
+                        android:alpha="0.9"
+                        app:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvName10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Неизвестный номер"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar10"
+                    app:layout_constraintTop_toTopOf="@+id/cardAvatar10"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTime10" />
+
+                <TextView
+                    android:id="@+id/tvLast10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Ты где? Срочно ответь."
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@+id/cardAvatar10"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName10"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ср"
+                    android:textColor="#6FFFE9"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvName10" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#12FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
