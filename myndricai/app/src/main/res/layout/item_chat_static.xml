@@ -53,12 +53,11 @@
         android:ellipsize="end"
         android:textColor="#B0BEC5"
         android:textSize="13sp"
-        tools:text="Перезвони мне!"
+        tools:text="Даша, почему не отвечаешь?"
         app:layout_constraintStart_toEndOf="@+id/cardAvatar"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
         app:layout_constraintEnd_toStartOf="@+id/viewDot" />
 
-    <!-- Time -->
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
@@ -69,19 +68,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvName" />
 
-    <!-- Small dot (можно скрыть, если не нужно) -->
+    <!-- Индикатор (можете скрыть, если вообще не нужен) -->
     <View
         android:id="@+id/viewDot"
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginStart="10dp"
         android:background="@android:drawable/presence_online"
-        android:alpha="0.85"
+        android:alpha="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/tvLastMessage"
         tools:ignore="MissingConstraints" />
 
-    <!-- Divider -->
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"

@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyndricAI">
         <activity
+            android:name=".ResultFailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ResultSuccessActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConclusionActivity"
             android:exported="false" />
         <activity
