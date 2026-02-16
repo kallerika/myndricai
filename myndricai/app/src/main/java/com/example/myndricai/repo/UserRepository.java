@@ -55,4 +55,5 @@ public class UserRepository {
         u.name = newName.trim();
         dao.update(u);
     }
+
 }

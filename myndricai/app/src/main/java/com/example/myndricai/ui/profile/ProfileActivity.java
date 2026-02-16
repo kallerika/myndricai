@@ -28,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ImageButton btnBack = findViewById(R.id.btnBackToCases);
+        ImageButton btnBack = findViewById(R.id.btnBack);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnReset = findViewById(R.id.btnResetProgress);
         Switch switchSound = findViewById(R.id.switchSound);

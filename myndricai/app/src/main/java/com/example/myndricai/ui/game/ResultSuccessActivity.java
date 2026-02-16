@@ -2,7 +2,7 @@ package com.example.myndricai.ui.game;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +22,8 @@ public class ResultSuccessActivity extends AppCompatActivity {
 
         caseId = getIntent().getLongExtra(IntentKeys.EXTRA_CASE_ID, 1L);
 
-        Button btnNew = findViewById(R.id.btnNewCase);
-        Button btnExit = findViewById(R.id.btnExitPhone);
+        View btnNew = findViewById(R.id.btnNewCase);      // это AppCompatButton — View подходит
+        View btnExit = findViewById(R.id.btnExitPhone);   // это TextView — View подходит
 
         btnExit.setOnClickListener(v -> openMenu(null));
         btnNew.setOnClickListener(v -> openMenu("Сейчас все доступные сюжеты пройдены"));

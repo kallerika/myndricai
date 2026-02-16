@@ -36,4 +36,8 @@ public interface CaseDao {
 
     @Query("SELECT COUNT(*) FROM cases WHERE status = 2")
     int completedCount();
+
+    @Query("UPDATE cases SET pin = :pin WHERE id = :id")
+    void updatePin(long id, String pin);
+
 }

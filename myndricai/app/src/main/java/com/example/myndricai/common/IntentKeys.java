@@ -6,4 +6,6 @@ public final class IntentKeys {
     public static final String EXTRA_CASE_ID = "extra_case_id";
     public static final String EXTRA_TOAST_MESSAGE = "extra_toast";
     public static final String EXTRA_RESULT_SUCCESS = "extra_result_success";
+    public static final String EXTRA_USER_DEDUCTION = "extra_user_deduction";
+
 }

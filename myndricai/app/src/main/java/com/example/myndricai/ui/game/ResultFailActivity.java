@@ -2,7 +2,7 @@ package com.example.myndricai.ui.game;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,17 +18,21 @@ public class ResultFailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_fail);
 
-        Button btnNew = findViewById(R.id.btnNewCase);
-        Button btnExit = findViewById(R.id.btnExitPhone);
+        String userText = getIntent().getStringExtra(IntentKeys.EXTRA_USER_DEDUCTION);
 
-        btnExit.setOnClickListener(v -> openMenu(null));
-        btnNew.setOnClickListener(v -> openMenu("Сейчас все доступные сюжеты пройдены"));
+        TextView tvUser = findViewById(R.id.tvYourDeductionText);
+        if (tvUser != null && userText != null && !userText.trim().isEmpty()) {
+            tvUser.setText("«" + userText.trim() + "»");
+        }
+
+        findViewById(R.id.btnExitPhone).setOnClickListener(v -> openMenu(null));
+        findViewById(R.id.btnNewCase).setOnClickListener(v -> openMenu("Сейчас все доступные сюжеты пройдены"));
     }
 
     private void openMenu(String toast) {
-        Intent i = new Intent(this, CasesActivity.class);
+        Intent i = new Intent(this, com.example.myndricai.ui.cases.CasesActivity.class);
         if (toast != null) i.putExtra(IntentKeys.EXTRA_TOAST_MESSAGE, toast);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
     }

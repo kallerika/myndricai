@@ -19,18 +19,20 @@ public class CaseRepository {
     }
 
     public void seedDefaultsIfNeeded() {
-        if (dao.count() > 0) return;
-        // One scenario is enough for the exam build.
+        if (dao.count() > 0) {
+            dao.updatePin(1L, "1833");
+            return;
+        }
         dao.insert(new CaseEntity(
                 1L,
                 "Дело №1: Исчезновение",
                 "Разблокируйте телефон и соберите улики",
                 STATUS_NEW,
-                "2580",
-                // 100% match means ALL keywords present.
-                "дворецкий,ключ,письмо"
+                "1833",
+                "Даша,бариста,19"
         ));
     }
+
 
     public List<CaseEntity> getAll() {
         List<CaseEntity> list = dao.getAll();

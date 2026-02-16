@@ -3,7 +3,6 @@ package com.example.myndricai.ui.game;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,8 +27,19 @@ public class LockScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
 
-        caseId = getIntent().getLongExtra(IntentKeys.EXTRA_CASE_ID, 1L);
+        caseId = getIntent().getLongExtra(IntentKeys.EXTRA_CASE_ID, -1L);
+        if (caseId == -1L) {
+            Toast.makeText(this, "Кейс не найден", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         c = MyApp.get().cases().getById(caseId);
+        if (c == null) {
+            Toast.makeText(this, "Кейс не найден", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         dot1 = findViewById(R.id.dot1);
         dot2 = findViewById(R.id.dot2);
@@ -47,18 +57,16 @@ public class LockScreenActivity extends AppCompatActivity {
         bindDigit(R.id.btn9, "9");
         bindDigit(R.id.btn0, "0");
 
-        TextView btnBackspace = findViewById(R.id.btnBackspace);
-        btnBackspace.setOnClickListener(v -> backspace());
-
-        TextView btnOk = findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v -> checkPin());
+        findViewById(R.id.btnBackspace).setOnClickListener(v -> backspace());
 
         updateDots();
     }
 
     private void bindDigit(int viewId, String digit) {
-        TextView tv = findViewById(viewId);
-        tv.setOnClickListener(v -> {
+        View v = findViewById(viewId);
+        if (v == null) return;
+
+        v.setOnClickListener(x -> {
             if (pin.length() >= 4) return;
             pin.append(digit);
             updateDots();
@@ -86,17 +94,14 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
     private void checkPin() {
-        if (c == null) {
-            Toast.makeText(this, "Кейс не найден", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
         if (pin.length() != 4) {
             Toast.makeText(this, "Введите 4 цифры", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if (pin.toString().equals(c.pin)) {
             MyApp.get().cases().setStatus(caseId, CaseRepository.STATUS_IN_PROGRESS);
+
             Intent i = new Intent(this, PhoneDesktopActivity.class);
             i.putExtra(IntentKeys.EXTRA_CASE_ID, caseId);
             startActivity(i);
