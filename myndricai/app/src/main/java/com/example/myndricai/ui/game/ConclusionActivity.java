@@ -19,6 +19,8 @@ import com.example.myndricai.data.entity.CaseEntity;
 import com.example.myndricai.repo.CaseRepository;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
+
 
 public class ConclusionActivity extends AppCompatActivity {
 
@@ -55,11 +57,18 @@ public class ConclusionActivity extends AppCompatActivity {
 
 
         et.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tvCounter.setText(s.length() + " символов");
             }
-            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         findViewById(R.id.btnSubmit).setOnClickListener(v -> {
@@ -83,20 +92,67 @@ public class ConclusionActivity extends AppCompatActivity {
         });
     }
 
+    private String normalizeRu(String s) {
+        if (s == null) return "";
+        String x = s.toLowerCase(Locale.ROOT)
+                .replace('ё', 'е')
+                .replaceAll("[^a-zа-я0-9]+", " ")
+                .trim()
+                .replaceAll("\\s+", " ");
+        return x;
+    }
+
+    private boolean containsAny(String text, String... variants) {
+        for (String v : variants) {
+            if (v == null) continue;
+            String vv = v.trim();
+            if (vv.isEmpty()) continue;
+            if (text.contains(vv)) return true;
+        }
+        return false;
+    }
+
+    private boolean containsPhraseLike(String text, String w1, String w2) {
+        // проверяет что оба слова есть в тексте, даже если далеко друг от друга
+        return text.contains(w1) && text.contains(w2);
+    }
+
+    private boolean containsAge19(String text) {
+        // 19, 19 лет, 19-летняя и т.п.
+        boolean digits = Pattern.compile("\\b19\\b").matcher(text).find()
+                || Pattern.compile("\\b19\\s*лет\\b").matcher(text).find()
+                || Pattern.compile("\\b19\\s*летн").matcher(text).find();
+
+        // "девятнадцать", "девятнадцати", "девятнадцатилетняя"
+        boolean words = text.contains("девятнадцат");
+
+        return digits || words;
+    }
+
+
     private boolean matchesAllKeywords(String answer) {
         if (c == null) return false;
 
-        String csv = c.answerKeywordsCsv;
-        if (csv == null) return false;
+        String a = normalizeRu(answer);
 
-        String a = answer.toLowerCase(Locale.ROOT);
-        String[] keywords = csv.split(",");
+        // 1) Имя (Даша/Дарья/…)
+        boolean okName = containsAny(a,
+                "даша",
+                "дарья",
+                "дашка"
+        );
 
-        for (String kw : keywords) {
-            String k = kw.trim().toLowerCase(Locale.ROOT);
-            if (k.isEmpty()) continue;
-            if (!a.contains(k)) return false;
-        }
-        return true;
+        // 2) Возраст 19 (цифрами и словами)
+        boolean okAge = containsAge19(a);
+
+        // 3) Профессия (бариста / кофейня / работает в кофейне и т.п.)
+        boolean okJob = containsAny(a,
+                "бариста",
+                "кофейн",       // кофейня, кофейне, кофейни...
+                "кофе",         // кофе (шире, но полезно)
+                "готовит кофе"
+        ) || containsPhraseLike(a, "работает", "кофе"); // "работает ... кофе/кофейне/кофейня"
+
+        return okName && okAge && okJob;
     }
 }

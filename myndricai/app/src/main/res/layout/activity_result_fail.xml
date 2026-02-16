@@ -15,7 +15,7 @@
         android:id="@+id/ivTopIcon"
         android:layout_width="74dp"
         android:layout_height="74dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:alpha="0.95"
         android:src="@drawable/ic_app_settings"
         app:layout_constraintEnd_toEndOf="parent"

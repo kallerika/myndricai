@@ -10,12 +10,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.Switch;
 
 import com.example.myndricai.MyApp;
 import com.example.myndricai.R;
 import com.example.myndricai.data.entity.UserEntity;
 import com.example.myndricai.ui.main.MainActivity;
+
+import com.example.myndricai.common.ThemePrefs;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -34,10 +40,21 @@ public class ProfileActivity extends AppCompatActivity {
         Switch switchSound = findViewById(R.id.switchSound);
         Switch switchVibration = findViewById(R.id.switchVibration);
         Switch switchHints = findViewById(R.id.switchHints);
+        Switch switchDarkTheme = findViewById(R.id.switchDarkTheme);
 
         tvUserName = findViewById(R.id.tvUserName);
         tvUserEmail = findViewById(R.id.tvUserEmail);
         btnEditProfile = findViewById(R.id.btnEditProfile);
+
+        switchDarkTheme.setChecked(MyApp.get().session().isDarkThemeEnabled());
+
+        switchDarkTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            MyApp.get().session().setDarkThemeEnabled(isChecked);
+            AppCompatDelegate.setDefaultNightMode(
+                    isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
+            );
+        });
+
 
         if (btnBack != null) btnBack.setOnClickListener(v -> finish());
 

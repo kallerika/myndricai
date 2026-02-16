@@ -16,13 +16,14 @@
         android:id="@+id/tvProfileTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Личный кабинет"
         android:textColor="@android:color/white"
         android:textSize="28sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnBack" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Кнопка назад (в кейсы) -->
     <ImageButton
@@ -33,10 +34,10 @@
         android:contentDescription="Назад"
         android:padding="8dp"
         android:src="@android:drawable/ic_menu_revert"
-        app:tint="@android:color/white"
-        app:layout_constraintTop_toTopOf="@+id/tvProfileTitle"
         app:layout_constraintBottom_toBottomOf="@+id/tvProfileTitle"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvProfileTitle"
+        app:tint="@android:color/white" />
 
 
     <!-- Подзаголовок -->
@@ -162,7 +163,7 @@
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#1FFFFFFF"
-                app:strokeWidth="1dp"/>
+                app:strokeWidth="1dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,6 +263,34 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Тёмная тема -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvDarkTheme"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Тёмная тема"
+                        android:textColor="#B0BEC5"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/switchDarkTheme"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:id="@+id/switchDarkTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </LinearLayout>
 

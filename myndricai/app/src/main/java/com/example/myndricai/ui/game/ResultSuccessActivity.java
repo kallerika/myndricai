@@ -2,7 +2,7 @@ package com.example.myndricai.ui.game;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,20 +13,21 @@ import com.example.myndricai.ui.cases.CasesActivity;
 
 public class ResultSuccessActivity extends AppCompatActivity {
 
-    private long caseId;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_success);
 
-        caseId = getIntent().getLongExtra(IntentKeys.EXTRA_CASE_ID, 1L);
+        String deduction = getIntent().getStringExtra(IntentKeys.EXTRA_USER_DEDUCTION);
+        if (deduction == null) deduction = "";
 
-        View btnNew = findViewById(R.id.btnNewCase);      // это AppCompatButton — View подходит
-        View btnExit = findViewById(R.id.btnExitPhone);   // это TextView — View подходит
+        TextView tvYourDeductionText = findViewById(R.id.tvYourDeductionText);
+        if (tvYourDeductionText != null) {
+            tvYourDeductionText.setText("«" + deduction.trim() + "»");
+        }
 
-        btnExit.setOnClickListener(v -> openMenu(null));
-        btnNew.setOnClickListener(v -> openMenu("Сейчас все доступные сюжеты пройдены"));
+        findViewById(R.id.btnExitPhone).setOnClickListener(v -> openMenu(null));
+        findViewById(R.id.btnNewCase).setOnClickListener(v -> openMenu("Сейчас все доступные сюжеты пройдены"));
     }
 
     private void openMenu(String toast) {
