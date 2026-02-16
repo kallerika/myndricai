@@ -22,11 +22,11 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnBackToCases" />
+        app:layout_constraintEnd_toStartOf="@+id/btnBack" />
 
     <!-- Кнопка назад (в кейсы) -->
     <ImageButton
-        android:id="@+id/btnBackToCases"
+        android:id="@+id/btnBack"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@android:color/transparent"
