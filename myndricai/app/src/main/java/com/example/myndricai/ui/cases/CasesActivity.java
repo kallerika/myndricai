@@ -7,27 +7,20 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myndricai.MyApp;
 import com.example.myndricai.R;
-import com.example.myndricai.common.constants.IntentKeys;
-import com.example.myndricai.common.result.UiState;
-import com.example.myndricai.di.ServiceLocator;
+import com.example.myndricai.common.IntentKeys;
+import com.example.myndricai.data.entity.CaseEntity;
+import com.example.myndricai.repo.CaseRepository;
 import com.example.myndricai.ui.game.LockScreenActivity;
 import com.example.myndricai.ui.profile.ProfileActivity;
-import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CasesActivity extends AppCompatActivity {
-
-    private CasesViewModel vm;
-
-    private MaterialButton btnStartNew;
-    private ImageButton btnProfile;
-    private RecyclerView rvCases;
 
     private CaseAdapter adapter;
 
@@ -36,76 +29,64 @@ public class CasesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cases);
 
-        btnStartNew = findViewById(R.id.btnStartNew);
-        btnProfile = findViewById(R.id.btnProfile);
-        rvCases = findViewById(R.id.rvCases);
+        android.widget.Button btnStartNew = findViewById(R.id.btnStartNew);
+        ImageButton btnProfile = findViewById(R.id.btnProfile);
+        RecyclerView rvCases = findViewById(R.id.rvCases);
 
-        adapter = new CaseAdapter(item -> vm.onCaseClick(item));
+        adapter = new CaseAdapter(this::onCaseClick);
         rvCases.setAdapter(adapter);
 
-        vm = new ViewModelProvider(this, new VmFactory()).get(CasesViewModel.class);
+        btnStartNew.setOnClickListener(v -> startNewFlow());
+        btnProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
 
-        btnStartNew.setOnClickListener(v -> vm.onStartNewClick());
-        btnProfile.setOnClickListener(v -> vm.onProfileClick());
-
-        vm.getCasesState().observe(this, state -> {
-            if (state instanceof UiState.Loading) {
-                btnStartNew.setEnabled(false);
-            } else if (state instanceof UiState.Content) {
-                btnStartNew.setEnabled(true);
-                @SuppressWarnings("unchecked")
-                List<CaseUiModel> list = ((UiState.Content<List<CaseUiModel>>) state).data;
-                adapter.submitList(list);
-            } else if (state instanceof UiState.Error) {
-                btnStartNew.setEnabled(true);
-                String msg = ((UiState.Error<?>) state).message;
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            } else {
-                btnStartNew.setEnabled(true);
-            }
-        });
-
-        vm.getToastEvent().observe(this, msg ->
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        );
-
-        vm.getNavEvent().observe(this, nav -> {
-            if (nav == null) return;
-
-            if ("profile".equals(nav.destination)) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                return;
-            }
-
-            if ("lock".equals(nav.destination)) {
-                Intent i = new Intent(this, LockScreenActivity.class);
-                i.putExtra(IntentKeys.EXTRA_CASE_ID, nav.caseId);
-                startActivity(i);
-            }
-        });
-
-        // Показать уведомление, если пришли с result-экрана
+        // Optional toast from result screen
         String toast = getIntent() != null ? getIntent().getStringExtra(IntentKeys.EXTRA_TOAST_MESSAGE) : null;
         if (toast != null && !toast.trim().isEmpty()) {
             Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
-            // Чтобы не показывать повторно при повороте/возврате
             getIntent().removeExtra(IntentKeys.EXTRA_TOAST_MESSAGE);
         }
-
-        vm.load();
     }
 
-    private static class VmFactory implements ViewModelProvider.Factory {
-        @SuppressWarnings("unchecked")
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            if (modelClass.isAssignableFrom(CasesViewModel.class)) {
-                return (T) new CasesViewModel(
-                        ServiceLocator.get().caseContentRepository(),
-                        ServiceLocator.get().casesRepository()
-                );
-            }
-            throw new IllegalArgumentException("Unknown ViewModel: " + modelClass);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        load();
+    }
+
+    private void load() {
+        List<CaseEntity> list = MyApp.get().cases().getAll();
+        List<CaseUiModel> ui = new ArrayList<>();
+        for (CaseEntity e : list) {
+            ui.add(new CaseUiModel(e.id, e.title, e.subtitle, e.status));
         }
+        adapter.submit(ui);
+    }
+
+    private void startNewFlow() {
+        if (MyApp.get().cases().allCompleted()) {
+            Toast.makeText(this, "Сейчас все доступные сюжеты пройдены", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Start the first non-completed case
+        for (CaseEntity e : MyApp.get().cases().getAll()) {
+            if (e.status != CaseRepository.STATUS_COMPLETED) {
+                openLock(e.id);
+                return;
+            }
+        }
+    }
+
+    private void onCaseClick(CaseUiModel item) {
+        if (item.status == CaseRepository.STATUS_COMPLETED) {
+            Toast.makeText(this, "Этот кейс уже завершен", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        openLock(item.id);
+    }
+
+    private void openLock(long caseId) {
+        Intent i = new Intent(this, LockScreenActivity.class);
+        i.putExtra(IntentKeys.EXTRA_CASE_ID, caseId);
+        startActivity(i);
     }
 }

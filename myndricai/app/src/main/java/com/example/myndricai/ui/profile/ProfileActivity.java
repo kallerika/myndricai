@@ -2,167 +2,115 @@ package com.example.myndricai.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
+import android.widget.Switch;
 
+import com.example.myndricai.MyApp;
 import com.example.myndricai.R;
-import com.example.myndricai.app.AppConfig;
-import com.example.myndricai.common.result.UiState;
-import com.example.myndricai.di.ServiceLocator;
+import com.example.myndricai.data.entity.UserEntity;
 import com.example.myndricai.ui.main.MainActivity;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ProfileViewModel vm;
-
-    private ImageButton btnBackToCases;
-    private ImageButton btnEditProfile;
-
     private TextView tvUserName;
     private TextView tvUserEmail;
-
-    private android.widget.Button btnLogout;
-    private android.widget.Button btnResetProgress;
-
-    private Switch switchSound;
-    private Switch switchVibration;
-    private Switch switchHints;
-
-    private boolean lockSwitchCallback = false;
+    private ImageButton btnEditProfile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        btnBackToCases = findViewById(R.id.btnBack);
-        btnEditProfile = findViewById(R.id.btnEditProfile);
+        ImageButton btnBack = findViewById(R.id.btnBackToCases);
+        Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnReset = findViewById(R.id.btnResetProgress);
+        Switch switchSound = findViewById(R.id.switchSound);
+        Switch switchVibration = findViewById(R.id.switchVibration);
+        Switch switchHints = findViewById(R.id.switchHints);
 
         tvUserName = findViewById(R.id.tvUserName);
         tvUserEmail = findViewById(R.id.tvUserEmail);
+        btnEditProfile = findViewById(R.id.btnEditProfile);
 
-        btnLogout = findViewById(R.id.btnLogout);
-        btnResetProgress = findViewById(R.id.btnResetProgress);
+        if (btnBack != null) btnBack.setOnClickListener(v -> finish());
 
-        switchSound = findViewById(R.id.switchSound);
-        switchVibration = findViewById(R.id.switchVibration);
-        switchHints = findViewById(R.id.switchHints);
+        btnLogout.setOnClickListener(v -> {
+            MyApp.get().session().clear();
+            Intent i = new Intent(this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            finish();
+        });
 
-        vm = new ViewModelProvider(this, new VmFactory()).get(ProfileViewModel.class);
+        btnReset.setOnClickListener(v -> {
+            MyApp.get().cases().resetAllProgress();
+            Toast.makeText(this, "Прогресс кейсов сброшен", Toast.LENGTH_SHORT).show();
+        });
 
-        // ic_menu_revert -> назад
-        btnBackToCases.setOnClickListener(v -> vm.onBack());
+        setupUnavailableSwitch(switchSound);
+        setupUnavailableSwitch(switchVibration);
+        setupUnavailableSwitch(switchHints);
 
-        // выход из аккаунта -> activity_main
-        btnLogout.setOnClickListener(v -> vm.onLogout());
+        btnEditProfile.setOnClickListener(v -> showEditNameDialog());
+    }
 
-        // смена имени -> диалог
-        btnEditProfile.setOnClickListener(v -> showChangeNameDialog());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bindUser();
+    }
 
-        // сброс прогресса
-        btnResetProgress.setOnClickListener(v -> vm.onResetProgress());
+    private void bindUser() {
+        long uid = MyApp.get().session().getUserId();
+        UserEntity u = MyApp.get().users().getById(uid);
+        if (u == null) {
+            tvUserName.setText("Гость");
+            tvUserEmail.setText("—");
+            return;
+        }
+        tvUserName.setText(u.name);
+        tvUserEmail.setText(u.email);
+    }
 
-        // настройки недоступны
-        bindSettingsSwitch(switchSound);
-        bindSettingsSwitch(switchVibration);
-        bindSettingsSwitch(switchHints);
+    private void setupUnavailableSwitch(Switch sw) {
+        if (sw == null) return;
+        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // revert silently, show toast
+            buttonView.post(() -> buttonView.setChecked(false));
+            Toast.makeText(this, "Эта функция недоступна и появится в следующей версии", Toast.LENGTH_SHORT).show();
+        });
+    }
 
-        // Скрытая кнопка "заполнить Firestore кейсами":
-        // долгий тап по email (ничего в XML менять не нужно)
-        if (AppConfig.ENABLE_SEED_CASES) {
-            tvUserEmail.setOnLongClickListener(v -> {
-                vm.seedCasesToFirestore();
-                return true;
-            });
+    private void showEditNameDialog() {
+        long uid = MyApp.get().session().getUserId();
+        UserEntity u = MyApp.get().users().getById(uid);
+        if (u == null) {
+            Toast.makeText(this, "Пользователь не найден", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        vm.getProfileState().observe(this, st -> {
-            boolean loading = st instanceof UiState.Loading;
-
-            btnLogout.setEnabled(!loading);
-            btnResetProgress.setEnabled(!loading);
-            btnEditProfile.setEnabled(!loading);
-            btnBackToCases.setEnabled(!loading);
-
-            if (st instanceof UiState.Content) {
-                ProfileViewModel.ProfileUi ui = ((UiState.Content<ProfileViewModel.ProfileUi>) st).data;
-                tvUserName.setText(ui != null && ui.name != null ? ui.name : "Игрок");
-                tvUserEmail.setText(ui != null && ui.email != null ? ui.email : "");
-            }
-        });
-
-        vm.getToastEvent().observe(this, msg ->
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        );
-
-        vm.getNavEvent().observe(this, nav -> {
-            if (nav == null) return;
-
-            if ("back".equals(nav.destination)) {
-                finish();
-                return;
-            }
-
-            if ("main".equals(nav.destination)) {
-                Intent i = new Intent(this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        vm.load();
-    }
-
-    private void bindSettingsSwitch(Switch sw) {
-        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (lockSwitchCallback) return;
-            vm.onSettingsToggle();
-            lockSwitchCallback = true;
-            sw.setChecked(!isChecked);
-            lockSwitchCallback = false;
-        });
-    }
-
-    private void showChangeNameDialog() {
-        EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        input.setHint("Введите имя");
+        final android.widget.EditText input = new android.widget.EditText(this);
+        input.setText(u.name);
 
         new AlertDialog.Builder(this)
                 .setTitle("Изменить имя")
                 .setView(input)
-                .setNegativeButton("Отмена", (d, w) -> d.dismiss())
                 .setPositiveButton("Сохранить", (d, w) -> {
-                    String name = input.getText() != null ? input.getText().toString() : "";
-                    vm.onChangeName(name);
+                    try {
+                        MyApp.get().users().updateName(uid, input.getText().toString());
+                        bindUser();
+                    } catch (Exception e) {
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 })
+                .setNegativeButton("Отмена", null)
                 .show();
-    }
-
-    private static class VmFactory implements ViewModelProvider.Factory {
-        @SuppressWarnings("unchecked")
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            if (modelClass.isAssignableFrom(ProfileViewModel.class)) {
-                return (T) new ProfileViewModel(
-                        ServiceLocator.get().authRepository(),
-                        ServiceLocator.get().userRepository(),
-                        ServiceLocator.get().casesRepository(),
-                        ServiceLocator.get().caseContentRepository()
-                );
-            }
-            throw new IllegalArgumentException("Unknown ViewModel: " + modelClass);
-        }
     }
 }

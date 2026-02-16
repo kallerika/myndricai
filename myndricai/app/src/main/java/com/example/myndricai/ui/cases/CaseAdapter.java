@@ -9,48 +9,51 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myndricai.R;
+import com.example.myndricai.repo.CaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaseAdapter extends RecyclerView.Adapter<CaseAdapter.CaseVH> {
+public class CaseAdapter extends RecyclerView.Adapter<CaseAdapter.VH> {
 
-    public interface OnCaseClickListener {
-        void onCaseClick(CaseUiModel item);
+    public interface Listener {
+        void onClick(CaseUiModel item);
     }
 
+    private final Listener listener;
     private final List<CaseUiModel> items = new ArrayList<>();
-    private final OnCaseClickListener listener;
 
-    public CaseAdapter(OnCaseClickListener listener) {
+    public CaseAdapter(Listener listener) {
         this.listener = listener;
     }
 
-    public void submitList(List<CaseUiModel> newItems) {
+    public void submit(List<CaseUiModel> list) {
         items.clear();
-        if (newItems != null) items.addAll(newItems);
+        if (list != null) items.addAll(list);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public CaseVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_case, parent, false);
-        return new CaseVH(v);
+        return new VH(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CaseVH holder, int position) {
-        CaseUiModel item = items.get(position);
+    public void onBindViewHolder(@NonNull VH h, int position) {
+        CaseUiModel it = items.get(position);
+        h.tvTitle.setText(it.title);
+        h.tvObjective.setText(it.subtitle);
+        h.tvLastDate.setText("—");
 
-        holder.tvCaseTitle.setText(item.title != null ? item.title : "");
-        holder.tvObjective.setText(item.objective != null ? item.objective : "");
-        holder.tvStatusValue.setText(item.statusText != null ? item.statusText : "Не начат");
-        holder.tvLastDate.setText(item.lastDateText != null ? item.lastDateText : "-");
+        String st;
+        if (it.status == CaseRepository.STATUS_COMPLETED) st = "Завершен";
+        else if (it.status == CaseRepository.STATUS_IN_PROGRESS) st = "В процессе";
+        else st = "Не начат";
+        h.tvStatus.setText(st);
 
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onCaseClick(item);
-        });
+        h.itemView.setOnClickListener(v -> listener.onClick(it));
     }
 
     @Override
@@ -58,18 +61,17 @@ public class CaseAdapter extends RecyclerView.Adapter<CaseAdapter.CaseVH> {
         return items.size();
     }
 
-    static class CaseVH extends RecyclerView.ViewHolder {
-
-        TextView tvCaseTitle;
+    static class VH extends RecyclerView.ViewHolder {
+        TextView tvTitle;
         TextView tvObjective;
-        TextView tvStatusValue;
+        TextView tvStatus;
         TextView tvLastDate;
 
-        CaseVH(@NonNull View itemView) {
+        VH(@NonNull View itemView) {
             super(itemView);
-            tvCaseTitle = itemView.findViewById(R.id.tvCaseTitle);
+            tvTitle = itemView.findViewById(R.id.tvCaseTitle);
             tvObjective = itemView.findViewById(R.id.tvObjective);
-            tvStatusValue = itemView.findViewById(R.id.tvStatusValue);
+            tvStatus = itemView.findViewById(R.id.tvStatusValue);
             tvLastDate = itemView.findViewById(R.id.tvLastDate);
         }
     }
